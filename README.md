@@ -64,7 +64,8 @@ A simple, secure desktop password manager built with Python and Tkinter.
 
 1. Enter the website name
 2. Click **Search**
-3. If found, the email and password fields will be populated
+3. A popup will display the saved email and password
+4. The password is automatically copied to your clipboard
 
 ### Generating a Password
 

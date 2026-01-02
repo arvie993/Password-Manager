@@ -101,10 +101,13 @@ def search():
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
-            email_entry.delete(0, END)
-            email_entry.insert(0, email)
-            password_entry.delete(0, END)
-            password_entry.insert(0, password)
+            messagebox.showinfo(title=website, 
+                               message=f"Email: {email}\nPassword: {password}")
+            # Copy password to clipboard
+            try:
+                pyperclip.copy(password)
+            except Exception:
+                pass
         else:
             messagebox.showinfo(title="Not Found", message=f"No details for '{website}' exist.")
     except (KeyError, TypeError) as e:
