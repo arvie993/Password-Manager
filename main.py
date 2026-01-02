@@ -80,6 +80,75 @@ def save():
             password_entry.delete(0, END)
 
 # ---------------------------- SEARCH PASSWORD ------------------------------- #
+def show_credentials_popup(website, email, password):
+    """Custom popup with copy buttons for email and password"""
+    popup = Toplevel(window)
+    popup.title(website)
+    popup.config(padx=20, pady=20)
+    
+    # Make popup modal and center it
+    popup.transient(window)
+    popup.grab_set()
+    
+    # Auto-copy password to clipboard on open
+    try:
+        pyperclip.copy(password)
+    except Exception:
+        pass
+    
+    # Email row
+    Label(popup, text="Email:", font=('Arial', 10, 'bold')).grid(row=0, column=0, sticky='e', padx=5, pady=5)
+    email_display = Entry(popup, width=30)
+    email_display.grid(row=0, column=1, padx=5, pady=5)
+    email_display.insert(0, email)
+    email_display.config(state='readonly')
+    
+    def copy_email():
+        try:
+            pyperclip.copy(email)
+            copy_email_btn.config(text="✓ Copied!")
+            popup.after(1500, lambda: copy_email_btn.config(text="Copy"))
+        except Exception:
+            pass
+    
+    copy_email_btn = Button(popup, text="Copy", command=copy_email, width=8,
+                           bg='#4CAF50', fg='white', relief='flat')
+    copy_email_btn.grid(row=0, column=2, padx=5, pady=5)
+    
+    # Password row
+    Label(popup, text="Password:", font=('Arial', 10, 'bold')).grid(row=1, column=0, sticky='e', padx=5, pady=5)
+    password_display = Entry(popup, width=30)
+    password_display.grid(row=1, column=1, padx=5, pady=5)
+    password_display.insert(0, password)
+    password_display.config(state='readonly')
+    
+    def copy_password():
+        try:
+            pyperclip.copy(password)
+            copy_password_btn.config(text="✓ Copied!")
+            popup.after(1500, lambda: copy_password_btn.config(text="Copy"))
+        except Exception:
+            pass
+    
+    copy_password_btn = Button(popup, text="Copy", command=copy_password, width=8,
+                              bg='#4CAF50', fg='white', relief='flat')
+    copy_password_btn.grid(row=1, column=2, padx=5, pady=5)
+    
+    # Status label
+    status_label = Label(popup, text="✓ Password copied to clipboard!", fg='green', font=('Arial', 9))
+    status_label.grid(row=2, column=0, columnspan=3, pady=(10, 5))
+    
+    # Close button
+    close_btn = Button(popup, text="Close", command=popup.destroy, width=15,
+                      bg='#2196F3', fg='white', relief='flat')
+    close_btn.grid(row=3, column=0, columnspan=3, pady=10)
+    
+    # Center the popup on screen
+    popup.update_idletasks()
+    x = window.winfo_x() + (window.winfo_width() // 2) - (popup.winfo_width() // 2)
+    y = window.winfo_y() + (window.winfo_height() // 2) - (popup.winfo_height() // 2)
+    popup.geometry(f"+{x}+{y}")
+
 def search():
     website = website_entry.get()
     
@@ -101,13 +170,7 @@ def search():
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
-            messagebox.showinfo(title=website, 
-                               message=f"Email: {email}\nPassword: {password}")
-            # Copy password to clipboard
-            try:
-                pyperclip.copy(password)
-            except Exception:
-                pass
+            show_credentials_popup(website, email, password)
         else:
             messagebox.showinfo(title="Not Found", message=f"No details for '{website}' exist.")
     except (KeyError, TypeError) as e:

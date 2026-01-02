@@ -17,7 +17,8 @@ A simple, secure desktop password manager built with Python and Tkinter.
 - **🔑 Password Generator**: Generate strong, random passwords with letters, numbers, and symbols
 - **💾 Save Credentials**: Store website credentials securely in a local JSON file
 - **🔍 Search Function**: Quickly find saved passwords by website name
-- **📋 Auto-Copy**: Generated passwords are automatically copied to clipboard
+- **📋 One-Click Copy**: Custom popup with dedicated copy buttons for email and password
+- **✨ Auto-Copy**: Password is automatically copied to clipboard when searched
 - **⚠️ Duplicate Warning**: Warns before overwriting existing credentials
 - **🛡️ Error Handling**: Comprehensive exception handling for a robust experience
 
@@ -64,8 +65,11 @@ A simple, secure desktop password manager built with Python and Tkinter.
 
 1. Enter the website name
 2. Click **Search**
-3. A popup will display the saved email and password
-4. The password is automatically copied to your clipboard
+3. A custom popup appears with:
+   - Email and password displayed in read-only fields
+   - **Copy** buttons next to each field for one-click copying
+   - Password is auto-copied to clipboard on popup open
+   - Visual feedback ("✓ Copied!") when you click copy
 
 ### Generating a Password
 
